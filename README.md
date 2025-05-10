@@ -117,3 +117,52 @@
 
 ## 6. High-Level Architecture Diagram
 
+
+```
+                                +---------------------------+
+                                |    GitHub / CI Pipelines |
+                                +------------+--------------+
+                                             |
+                                             v
+                              +--------------+--------------+
+                              |    Amazon ECR (Docker Hub)  |
+                              +--------------+--------------+
+                                             |
+                                             v
+                                +------------+-----------+
+                                |        Amazon EKS       |
+                                | +---------------------+ |
+                                | |  Frontend Pods       |<----------+
+                                | |  Backend Pods        |<--+       |
+                                | +---------------------+   |       |
+                                +---------------------------+       |
+                                             |                    +--+--+
+                                             |                    | RDS |
+                                             |                    +-----+
+                                             |
+                                +------------v------------+
+                                |    Application Load     |
+                                |      Balancer (ALB)     |
+                                +-------------------------+
+```
+
+---
+
+## 7. Cost Optimization Suggestions
+
+* Use Spot Instances for dev workloads
+* Graviton-based EC2 nodes for cost-performance
+* Auto-scaling everything: EKS, RDS storage, nodes
+* Schedule dev cluster/node group shutdowns
+* Monitor with CloudWatch + Cost Explorer
+
+---
+
+## 8. Security Best Practices
+
+* IAM least privilege & role-based access
+* VPC Endpoints instead of public APIs
+* Enable GuardDuty, Security Hub
+* Encrypt everything (EBS, S3, RDS, etc.)
+* Enforce HTTPS
+* Secrets in AWS Secrets Manager or SSM
